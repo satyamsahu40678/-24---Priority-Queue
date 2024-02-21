@@ -2,29 +2,32 @@
 // Return any possible rearrangement of s or return "" if not possible
 
 import java.util.*;
-class PQQues1{
-     public static String reorganizeString(String S) {
+
+class PQQues1 {
+    public static String reorganizeString(String S) {
         Map<Character, Integer> map = new HashMap();
-        for(char ch : S.toCharArray()) {
-            map.put(ch, map.getOrDefault(ch, 0)+1);
+        for (char ch : S.toCharArray()) {
+            map.put(ch, map.getOrDefault(ch, 0) + 1);
         }
-        PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>((a,b) -> b.getValue() - a.getValue());
+        PriorityQueue<Map.Entry<Character, Integer>> maxHeap = new PriorityQueue<>(
+                (a, b) -> b.getValue() - a.getValue());
         maxHeap.addAll(map.entrySet());
         StringBuilder sb = new StringBuilder();
         Map.Entry<Character, Integer> previousEntry = null;
-        while(!maxHeap.isEmpty()) {
+        while (!maxHeap.isEmpty()) {
             Map.Entry<Character, Integer> currentEntry = maxHeap.poll();
-            if(previousEntry != null && previousEntry.getValue() > 0) {
+            if (previousEntry != null && previousEntry.getValue() > 0) {
                 maxHeap.offer(previousEntry);
             }
             sb.append(currentEntry.getKey());
-            currentEntry.setValue(currentEntry.getValue()-1);
+            currentEntry.setValue(currentEntry.getValue() - 1);
             previousEntry = currentEntry;
         }
-        
+
         return sb.toString().length() == S.length() ? sb.toString() : "";
     }
-    public static void main(String[] args){
+
+    public static void main(String[] args) {
         String S = "physicsWallahaappwskillls";
         System.out.println("The desired output is : " + reorganizeString(S));
     }
